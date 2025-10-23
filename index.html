@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Discord Verification</title>
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;padding:20px;max-width:700px}
+    label{display:block;margin:10px 0}
+    input{width:100%;padding:8px;box-sizing:border-box}
+    button{padding:10px 14px;margin-top:8px}
+    #status{margin-top:12px}
+    pre{background:#f6f6f6;padding:10px;overflow:auto}
+  </style>
+</head>
+<body>
+  <h3>Discord verification</h3>
+
+  <form id="verifyForm">
+    <label>Discord username
+      <input id="discord" name="discord" required placeholder="Name#1234">
+    </label>
+
+    <label>Claimed state or region
+      <input id="claimed" name="claimed" required placeholder="Michigan">
+    </label>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="status" aria-live="polite"></div>
+
+  <script>
+    // Google Form POST endpoint and entry IDs extracted from your prefill link
+    const GOOGLE_FORM_POST = 'https://docs.google.com/forms/d/e/1FAIpQLSehPsv62SeajiQFt6xRMbyyAjsxcP8DmpsqC05leHRe5W3IYQ/formResponse';
+    const ENTRY_DISCORD = 'entry.364789875';
+    const ENTRY_CLAIMED = 'entry.1124113994';
+    const ENTRY_INFERRED = 'entry.700436850';
+    const ENTRY_UI_LANG = 'entry.538289249';
+    const ENTRY_CONSENT = 'entry.783130169';
+
+    const form = document.getElementById('verifyForm');
+    const status = document.getElementById('status');
+
+    async function reverseGeocode(lat, lon) {
+      try {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&zoom=5&addressdetails=1`;
+        const r = await fetch(url, {
+          headers: {'User-Agent': 'discord-verification/1.0 (contact@example.com)'}
+        });
+        if (!r.ok) throw new Error('reverse geocode failed');
+        const j = await r.json();
+        const addr = j.address || {};
+        return addr.state || addr.county || addr.region || addr.country || 'unknown';
+      } catch (err) {
+        return 'unknown';
+      }
+    }
+
+    function getGeolocation(timeoutMs = 8000) {
+      return new Promise((resolve) => {
+        if (!navigator.geolocation) {
+          return resolve({consent: 'unavailable', region: 'unknown'});
+        }
+        let handled = false;
+        const timer = setTimeout(() => {
+          if (!handled) { handled = true; resolve({consent: 'timeout', region: 'unknown'}); }
+        }, timeoutMs);
+
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+          if (handled) return;
+          handled = true;
+          clearTimeout(timer);
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          const region = await reverseGeocode(lat, lon);
+          resolve({consent: 'granted', region});
+        }, () => {
+          if (handled) return;
+          handled = true;
+          clearTimeout(timer);
+          resolve({consent: 'denied', region: 'geolocation-denied'});
+        }, {maximumAge: 60000, timeout: timeoutMs});
+      });
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = 'Collecting data…';
+      const discord = document.getElementById('discord').value.trim();
+      const claimed = document.getElementById('claimed').value.trim();
+      const ui_language = navigator.language || navigator.userLanguage || '';
+
+      const geo = await getGeolocation();
+      const inferred_region = geo.region || (geo.consent === 'denied' ? 'geolocation-denied' : 'unknown');
+
+      const fd = new FormData();
+      fd.append(ENTRY_DISCORD, discord);
+      fd.append(ENTRY_CLAIMED, claimed);
+      fd.append(ENTRY_INFERRED, inferred_region);
+      fd.append(ENTRY_UI_LANG, ui_language);
+      fd.append(ENTRY_CONSENT, geo.consent);
+
+      try {
+        // Google Forms from static pages typically requires no-cors mode
+        await fetch(GOOGLE_FORM_POST, { method: 'POST', body: fd, mode: 'no-cors' });
+        status.innerHTML = '<strong>Submitted.</strong> If you allowed location, inferred region: ' + inferred_region;
+      } catch (err) {
+        status.textContent = 'Submission failed';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
