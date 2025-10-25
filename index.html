@@ -10,103 +10,102 @@
       --muted:#6b7280; --radius:14px; --maxw:780px;
     }
     html,body{height:100%}
+
+    /* Top banner with thumbnail + badge */
     .top-banner {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  padding: 10px 16px;
-  border-radius: 12px;
-  margin-bottom: 18px;
-  max-width: var(--maxw);
-  width: 100%;
-}
-
-.logo {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  display: inline-grid;
-  place-items: center;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: white;
-  font-weight: 700;
-  font-size: 18px;
-  box-shadow: 0 6px 20px rgba(6,182,212,0.12);
-}
-
-.badge {
-  background: #dc2626;
-  color: white;
-  font-weight: 700;
-  font-size: 14px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  white-space: nowrap;
-}
-body {
-  margin: 0;
-  font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
-  background: url('american-flag-backgrounds-free-photo.jpg') center center / cover no-repeat fixed;
-  color: #0f172a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 28px;
-}
-
-.card {
-  background: url('Screenshot_20210525_015028_Discord.jpg') center center / cover no-repeat;
-  border-radius: var(--radius);
-  box-shadow: 0 12px 40px rgba(2,6,23,0.08);
-  padding: 22px;
-  display: grid;
-  gap: 16px;
-  position: relative;
-}
-
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.85);
-  border-radius: var(--radius);
-  z-index: 0;
-}
-
-.card > * {
-  position: relative;
-  z-index: 1;
-}
-
-.header {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.badge {
-  background: #dc2626;
-  color: white;
-  font-weight: 700;
-  font-size: 13px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  white-space: nowrap;
-}
-    .header{display:flex; gap:14px; align-items:center}
-    .logo{
-      width:56px; height:56px; border-radius:12px; display:inline-grid; place-items:center;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:white; font-weight:700;
-      font-size:18px; box-shadow:0 8px 26px rgba(6,182,212,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      max-width: var(--maxw);
+      width: 100%;
+      box-sizing: border-box;
     }
+
+    /* logo as image thumbnail */
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 6px 20px rgba(6,182,212,0.12);
+      flex: 0 0 42px;
+    }
+
+    .badge {
+      background: #dc2626;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      white-space: nowrap;
+    }
+
+    /* Page background (flag) and layout */
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+      background: url('american-flag-backgrounds-free-photo.jpg') center center / cover no-repeat fixed;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      box-sizing: border-box;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--maxw);
+      padding: 18px;
+      box-sizing: border-box;
+    }
+
+    /* Form card with eagle image and semi-transparent overlay */
+    .card {
+      background: url('Screenshot_20210525_015028_Discord.jpg') center center / cover no-repeat;
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(2,6,23,0.08);
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.85);
+      border-radius: var(--radius);
+      z-index: 0;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Title / copy */
     h1{font-size:20px; margin:0; line-height:1.05}
     p.lead{margin:0; color:var(--muted); font-size:13.5px}
+
+    /* Form styles */
     form{display:grid; gap:12px; margin-top:2px}
     label{font-size:13px; color:#0f172a}
     input[type="text"]{
@@ -126,25 +125,30 @@ body {
     #status{margin-top:6px; font-size:14px}
     .meta{display:flex; gap:8px; align-items:center; margin-top:6px; font-size:13px; color:var(--muted)}
     footer.note{margin-top:6px; font-size:13px; color:var(--muted)}
-    @media (max-width:520px){ .row{flex-direction:column} .header{gap:10px} }
+
+    @media (max-width:520px){
+      .row{flex-direction:column}
+      .header{gap:10px}
+      .top-banner{padding:10px}
+      .badge{font-size:13px; padding:6px 10px}
+    }
   </style>
 </head>
 <body>
-  <div class="top-banner">
-  <div class="logo" aria-hidden="true">🌐</div>
-  <div class="badge">Michigan Idiots</div>
+  <!-- Top banner: thumbnail + badge -->
+  <div class="top-banner" role="banner" aria-label="Site header">
+    <img src="Screenshot_20251025_015028_Discord.jpg" alt="Thumbnail" class="logo" />
+    <div class="badge">Michigan Idiots</div>
   </div>
+
   <div class="wrap">
     <div class="card" role="region" aria-label="Community verification request">
       <div class="header">
-        <div class="header">
-  <div class="logo" aria-hidden="true">CV</div>
-  <div style="flex-grow:1">
-    <h1>Community verification request form</h1>
-    <p class="lead">Submit your Discord handle and region. Allow location for verification completion.</p>
-  </div>
-  <div class="badge">Michigan Idiots</div>
+        <div style="flex-grow:1">
+          <h1>Community verification request form</h1>
+          <p class="lead">Submit your Discord handle and region. Allow location for verification completion.</p>
         </div>
+      </div>
 
       <form id="verifyForm" autocomplete="off" novalidate>
         <label for="discord">Discord username</label>
