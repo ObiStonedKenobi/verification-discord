@@ -10,6 +10,43 @@
       --muted:#6b7280; --radius:14px; --maxw:780px;
     }
     html,body{height:100%}
+    .top-banner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  max-width: var(--maxw);
+  width: 100%;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: inline-grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  box-shadow: 0 6px 20px rgba(6,182,212,0.12);
+}
+
+.badge {
+  background: #dc2626;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  white-space: nowrap;
+}
 body {
   margin: 0;
   font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
@@ -93,6 +130,10 @@ body {
   </style>
 </head>
 <body>
+  <div class="top-banner">
+  <div class="logo" aria-hidden="true">🌐</div>
+  <div class="badge">Michigan Idiots</div>
+  </div>
   <div class="wrap">
     <div class="card" role="region" aria-label="Community verification request">
       <div class="header">
