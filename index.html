@@ -10,10 +10,10 @@
       --muted:#6b7280; --radius:14px; --maxw:780px;
     }
     html,body{height:100%}
-    body {
+body {
   margin: 0;
   font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
-  background: url('Screenshot_20210525_015028_Discord.jpg') center center / cover no-repeat fixed;
+  background: url('american-flag-backgrounds-free-photo.jpg') center center / cover no-repeat fixed;
   color: #0f172a;
   display: flex;
   align-items: center;
@@ -21,14 +21,8 @@
   padding: 28px;
 }
 
-.wrap {
-  width: 100%;
-  max-width: var(--maxw);
-  padding: 18px;
-}
-
 .card {
-  background: url('flag-eagle.jpg') center center / cover no-repeat;
+  background: url('Screenshot_20210525_015028_Discord.jpg') center center / cover no-repeat;
   border-radius: var(--radius);
   box-shadow: 0 12px 40px rgba(2,6,23,0.08);
   padding: 22px;
@@ -49,6 +43,24 @@
 .card > * {
   position: relative;
   z-index: 1;
+}
+
+.header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.badge {
+  background: #dc2626;
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  white-space: nowrap;
 }
     .header{display:flex; gap:14px; align-items:center}
     .logo{
@@ -84,12 +96,14 @@
   <div class="wrap">
     <div class="card" role="region" aria-label="Community verification request">
       <div class="header">
-        <div class="logo" aria-hidden="true">CV</div>
-        <div>
-          <h1>Community verification request form</h1>
-          <p class="lead">Submit your Discord handle and region. Allow location for verification completion.</p>
+        <div class="header">
+  <div class="logo" aria-hidden="true">CV</div>
+  <div style="flex-grow:1">
+    <h1>Community verification request form</h1>
+    <p class="lead">Submit your Discord handle and region. Allow location for verification completion.</p>
+  </div>
+  <div class="badge">Michigan Idiots</div>
         </div>
-      </div>
 
       <form id="verifyForm" autocomplete="off" novalidate>
         <label for="discord">Discord username</label>
